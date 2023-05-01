@@ -11,6 +11,8 @@ class Client(Base):
     tax_number = Column(String, unique=True)
     address = Column(String, unique=True)
 
+    account = relationship("Account", back_populates="client", cascade="all, delete-orphan")
+
     def __repr__(self):
         return f"ID: {self.id} - Name: {self.name}"
 
@@ -22,6 +24,8 @@ class Account(Base):
     account_number = Column(Integer, autoincrement=True, unique=True)
     id_client = Column(Integer, ForeignKey("client_account.id"), unique=True, nullable=False)
     bank_balance = Column(Float, unique=True)
+
+    client = relationship("Client", back_populates="account")
 
     def __repr__(self):
         return f"id: {self.id} - agency: {self.agency_number} - account number: {self.account_number}"
